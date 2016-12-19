@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using Autofac;
 using Microsoft.EntityFrameworkCore;
+using ShopService.Conventions;
 using ShopService.Conventions.CQS.Commands;
 using ShopService.Conventions.CQS.Queries;
 using ShopService.Conventions.Repositories;
@@ -23,6 +25,10 @@ namespace ShopService.Initializers.AutofacConfigs
             {
                 typeof(ApplicationDbContext).GetTypeInfo().Assembly,
             };
+
+            builder.RegisterAssemblyTypes(assemblies)
+                .Where(t => t.GetInterfaces().Any(i => i.IsAssignableFrom(typeof(IInitializable))))
+                .AsImplementedInterfaces();
 
             // регистрация запросов
             builder.RegisterAssemblyTypes(assemblies).AsClosedTypesOf(typeof(IQuery<,>));

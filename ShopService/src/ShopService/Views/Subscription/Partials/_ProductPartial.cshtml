@@ -1,6 +1,6 @@
 ﻿@model ShopService.Entities.Product
 
-@using (Html.BeginForm("RemoveFromSubscription", "Products", FormMethod.Post))
+@using (Html.BeginForm("AddToSubscription", "Subscription", FormMethod.Post))
 {
     @Html.HiddenFor(x => x.Id)
     <div class="col-xs-4">
@@ -10,8 +10,8 @@
             </div>
             <div class="panel-body">
                 <span>Цена: @Model.Price $</span>
-                <button type="submit" class="btn btn-danger pull-right">
-                    <span class="glyphicon glyphicon-remove"></span> Удалить из подписки
+                <button type="submit" class="btn btn-primary pull-right">
+                    <span class="glyphicon glyphicon-plus"></span> Добавить товар
                 </button>
             </div>
         </div>

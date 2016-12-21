@@ -6,15 +6,16 @@ using ShopService.Conventions.CQS.Queries;
 using ShopService.CQS.Contexts;
 using ShopService.CQS.Criterions;
 using ShopService.Entities;
+using ShopService.Models.SubscriptionViewModels;
 
 namespace ShopService.Controllers
 {
-    public class ProductsController : Controller
+    public class SubscriptionController : Controller
     {
         private readonly IQueryBuilder _queryBuilder;
         private readonly ICommandBuilder _commandBuilder;
 
-        public ProductsController(IQueryBuilder queryBuilder, ICommandBuilder commandBuilder)
+        public SubscriptionController(IQueryBuilder queryBuilder, ICommandBuilder commandBuilder)
         {
             _queryBuilder = queryBuilder;
             _commandBuilder = commandBuilder;
@@ -24,7 +25,13 @@ namespace ShopService.Controllers
         {
             var allProductsCriterion = new AllProductsCriterion();
             var products = await _queryBuilder.For<List<Product>>().WithAsync(allProductsCriterion);
-            return View(products);
+
+            var productsSumInSubscriptionCriterion = new CalculateProductsSumInSubscriptionCriterion();
+            var sum = await _queryBuilder.For<double>().WithAsync(productsSumInSubscriptionCriterion);
+
+            var viewModel = new SubscriptionViewModel(products, sum);
+
+            return View(viewModel);
         }
 
         [HttpPost]

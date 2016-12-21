@@ -1,9 +1,11 @@
-﻿@model List<ShopService.Entities.Product>
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@using ShopService.Models.SubscriptionViewModels
+@model SubscriptionViewModel
 
 <h1>Продукты</h1>
 
 <div class="row">
-    @foreach (var product in Model)
+    @foreach (var product in Model.Products)
     {
         if (product.InSubscription)
         {
@@ -14,6 +16,11 @@
             @await Html.PartialAsync("./Partials/_ProductPartial", product)
         }
     }
+</div>
+<div class="row">
+    <div class="pull-right">
+        <h3>Сумма товаров: @Model.ProductsPricesSum $</h3>
+    </div>
 </div>
 
 @section scripts{

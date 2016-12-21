@@ -3,10 +3,10 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ShopService.Conventions.CQS.Queries;
 using ShopService.Conventions.Repositories;
+using ShopService.CQS.Criterions;
 using ShopService.Entities;
-using ShopService.Models.Criterions;
 
-namespace ShopService.Queries.Products
+namespace ShopService.CQS.Queries.Products
 {
     public class AllProductsQuery : IQuery<AllProductsCriterion, List<Product>>
     {

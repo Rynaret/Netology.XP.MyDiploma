@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
 using Autofac;
 using Microsoft.EntityFrameworkCore;
@@ -7,10 +6,9 @@ using ShopService.Conventions;
 using ShopService.Conventions.CQS.Commands;
 using ShopService.Conventions.CQS.Queries;
 using ShopService.Conventions.Repositories;
+using ShopService.CQS.Repositories;
 using ShopService.Data;
 using ShopService.Initializers.AutofacConfigs.Resolver;
-using ShopService.Models;
-using ShopService.Repositories;
 
 namespace ShopService.Initializers.AutofacConfigs
 {

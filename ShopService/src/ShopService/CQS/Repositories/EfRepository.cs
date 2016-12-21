@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ShopService.Conventions;
 using ShopService.Conventions.Repositories;
 
-namespace ShopService.Repositories
+namespace ShopService.CQS.Repositories
 {
     public class EfRepository<T> : IRepository<T> where T : class, IEntity, new()
     {

@@ -24,5 +24,6 @@ namespace ShopService.Data
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
     }
 }

@@ -1,0 +1,19 @@
+﻿@model ShopService.Entities.Product
+
+@using (Html.BeginForm("AddToSubscription", "Products", FormMethod.Post))
+{
+    @Html.HiddenFor(x => x.Id)
+    <div class="col-xs-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Model.Name</h3>
+            </div>
+            <div class="panel-body">
+                <span>Цена: @Model.Price $</span>
+                <button type="submit" class="btn btn-primary pull-right">
+                    <span class="glyphicon glyphicon-plus"></span> Добавить товар
+                </button>
+            </div>
+        </div>
+    </div>
+}

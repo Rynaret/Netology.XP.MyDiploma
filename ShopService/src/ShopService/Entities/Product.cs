@@ -8,5 +8,11 @@ namespace ShopService.Entities
 
         public string Name { get; set; }
         public double Price { get; set; }
+
+        public long? SubscriptionId { get; set; }
+
+        public Subscription Subscription { get; set; }
+
+        public bool InSubscription => SubscriptionId.HasValue;
     }
 }

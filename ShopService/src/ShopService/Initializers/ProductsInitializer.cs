@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using ShopService.Conventions;
 using ShopService.Entities;
@@ -17,13 +18,14 @@ namespace ShopService.Initializers
         public int Order => 1;
         public void Initialize()
         {
-            _dbContext.Set<Product>().AddRange(new List<Product>
+            var productsNamesInDb = _dbContext.Set<Product>().Select(x => x.Name).ToList();
+            var products = new List<Product>
             {
                 new Product
                 {
                     Name = "Бритвенный станок",
                     Price = 1
-                }, 
+                },
                 new Product
                 {
                     Name = "Гель для бритья",
@@ -34,7 +36,10 @@ namespace ShopService.Initializers
                     Name = "Средство после бритья",
                     Price = 10
                 }
-            });
+            };
+            var productsToAdd = products.Where(x => !productsNamesInDb.Contains(x.Name)).ToList();
+
+            _dbContext.Set<Product>().AddRange(productsToAdd);
             _dbContext.SaveChanges();
         }
     }

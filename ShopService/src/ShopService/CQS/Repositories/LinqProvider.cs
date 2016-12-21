@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ShopService.Conventions;
 using ShopService.Conventions.Repositories;
 
-namespace ShopService.Repositories
+namespace ShopService.CQS.Repositories
 {
     public sealed class LinqProvider : ILinqProvider
     {

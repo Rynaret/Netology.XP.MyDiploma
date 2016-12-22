@@ -20,17 +20,9 @@ namespace ShopService.Controllers
 
         public async Task<IActionResult> Index(long? id)
         {
-            var deliveryIntervalTemplatesCriterion = new AllDeliveryIntervalTemplatesCriterion();
-            var deliveryIntervalTemplates = await _queryBuilder.For<List<DeliveryIntervalTemplate>>().
-                WithAsync(deliveryIntervalTemplatesCriterion);
-
-            var selectedTemplate = deliveryIntervalTemplates.FirstOrDefault(x => x.Id == id) ??
-                                   deliveryIntervalTemplates.FirstOrDefault();
-            deliveryIntervalTemplates = deliveryIntervalTemplates
-                .Where(x => x.Id != selectedTemplate.Id)
-                .ToList();
-
-            var viewModel = new DeliveryIntervalTemplateViewModel(selectedTemplate, deliveryIntervalTemplates);
+            var deliveryIntervalTemplateViewModelCriterion = new DeliveryIntervalTemplateViewModelCriterion(id);
+            var viewModel = await _queryBuilder.For<DeliveryIntervalTemplateViewModel>().
+                WithAsync(deliveryIntervalTemplateViewModelCriterion);
 
             return View(viewModel);
         }

@@ -8,9 +8,10 @@ using ShopService.Data;
 namespace ShopService.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161222173251_CreateTableDeliveryIntervalTemplate")]
+    partial class CreateTableDeliveryIntervalTemplate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -193,14 +194,11 @@ namespace ShopService.Data.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("CronFormatDatesCountInMonth")
+                        .HasAnnotation("MaxLength", 100);
+
                     b.Property<string>("CronFormatMonthFrequency")
                         .HasAnnotation("MaxLength", 5);
-
-                    b.Property<int>("DatesCountInMonth")
-                        .HasAnnotation("MaxLength", 31);
-
-                    b.Property<string>("Name")
-                        .HasAnnotation("MaxLength", 100);
 
                     b.HasKey("Id");
 

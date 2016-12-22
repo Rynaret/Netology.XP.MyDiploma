@@ -15,7 +15,7 @@ namespace ShopService.Initializers
             _dbContext = dbContext;
         }
 
-        public int Order => 1;
+        public int Order => 2;
         public void Initialize()
         {
             var productsNamesInDb = _dbContext.Set<Product>().Select(x => x.Name).ToList();

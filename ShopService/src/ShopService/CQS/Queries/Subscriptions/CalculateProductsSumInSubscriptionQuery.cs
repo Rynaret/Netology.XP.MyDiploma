@@ -1,8 +1,5 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Threading.Tasks;
 using ShopService.Conventions.CQS.Queries;
-using ShopService.Conventions.Repositories;
 using ShopService.CQS.Criterions;
 using ShopService.Entities;
 

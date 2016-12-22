@@ -29,7 +29,11 @@ namespace ShopService.Controllers
             var productsSumInSubscriptionCriterion = new CalculateProductsSumInSubscriptionCriterion();
             var sum = await _queryBuilder.For<double>().WithAsync(productsSumInSubscriptionCriterion);
 
-            var viewModel = new SubscriptionViewModel(products, sum);
+            var deliveryIntervalTemplatesCriterion = new AllDeliveryIntervalTemplatesCriterion();
+            var deliveryIntervalTemplates = await _queryBuilder.For<List<DeliveryIntervalTemplate>>().
+                WithAsync(deliveryIntervalTemplatesCriterion);
+
+            var viewModel = new SubscriptionViewModel(products, sum, deliveryIntervalTemplates);
 
             return View(viewModel);
         }

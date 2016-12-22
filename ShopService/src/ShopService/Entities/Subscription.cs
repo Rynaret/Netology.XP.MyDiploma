@@ -7,6 +7,9 @@ namespace ShopService.Entities
     {
         public long Id { get; set; }
 
+        public long? DeliveryIntervalId { get; set; }
+
+        public DeliveryInterval DeliveryInterval { get; set; }
         public ICollection<Product> Products { get; set; }
     }
 }

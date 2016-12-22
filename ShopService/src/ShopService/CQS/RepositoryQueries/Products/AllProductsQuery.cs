@@ -6,7 +6,7 @@ using ShopService.Conventions.Repositories;
 using ShopService.CQS.Criterions;
 using ShopService.Entities;
 
-namespace ShopService.CQS.Queries.Products
+namespace ShopService.CQS.RepositoryQueries.Products
 {
     public class AllProductsQuery : IQuery<AllProductsCriterion, List<Product>>
     {

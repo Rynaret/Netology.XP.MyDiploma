@@ -8,9 +8,10 @@ using ShopService.Data;
 namespace ShopService.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20161221212158_CreateTableDeliveryInterval")]
+    partial class CreateTableDeliveryInterval
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -179,32 +180,9 @@ namespace ShopService.Data.Migrations
                     b.Property<string>("CronString")
                         .HasAnnotation("MaxLength", 120);
 
-                    b.Property<long>("DeliveryIntervalTemplateId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("DeliveryIntervalTemplateId");
 
                     b.ToTable("DeliveryIntervals");
-                });
-
-            modelBuilder.Entity("ShopService.Entities.DeliveryIntervalTemplate", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("CronFormatMonthFrequency")
-                        .HasAnnotation("MaxLength", 5);
-
-                    b.Property<int>("DatesCountInMonth")
-                        .HasAnnotation("MaxLength", 31);
-
-                    b.Property<string>("Name")
-                        .HasAnnotation("MaxLength", 100);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DeliveryIntervalTemplates");
                 });
 
             modelBuilder.Entity("ShopService.Entities.Product", b =>
@@ -274,14 +252,6 @@ namespace ShopService.Data.Migrations
                     b.HasOne("ShopService.Entities.ApplicationUser")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ShopService.Entities.DeliveryInterval", b =>
-                {
-                    b.HasOne("ShopService.Entities.DeliveryIntervalTemplate", "DeliveryIntervalTemplate")
-                        .WithMany("DeliveryIntervals")
-                        .HasForeignKey("DeliveryIntervalTemplateId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

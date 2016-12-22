@@ -5,7 +5,7 @@ using ShopService.Conventions.Repositories;
 using ShopService.CQS.Criterions;
 using ShopService.Entities;
 
-namespace ShopService.CQS.Queries.Subscriptions
+namespace ShopService.CQS.RepositoryQueries.Subscriptions
 {
     public class SubscriptionWithProductsQuery : IQuery<SubscriptionWithProductsCriterion, Subscription>
     {

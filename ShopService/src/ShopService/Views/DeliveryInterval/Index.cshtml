@@ -1,0 +1,28 @@
+﻿@using ShopService.Models.DeliveryIntervalTemplateViewModels
+
+@model DeliveryIntervalTemplateViewModel
+
+<h1>Интервалы доставки</h1>
+
+<div class="row">
+    @foreach (var template in Model.DeliveryIntervalTemplates)
+    {
+        <a class="btn btn-primary btn-sm" 
+           asp-controller="DeliveryInterval" 
+           asp-action="Index" 
+           asp-route-id="@template.Id">
+            Интервал доставки: @template.Name
+        </a>
+    }
+</div>
+
+@await Html.PartialAsync("./Partial/_AddDeliveryInterval"    
+    , new DeliveryIntervalEditModel(Model.SelectedDeliveryIntervalTemplate))
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            
+        });
+</script>
+}

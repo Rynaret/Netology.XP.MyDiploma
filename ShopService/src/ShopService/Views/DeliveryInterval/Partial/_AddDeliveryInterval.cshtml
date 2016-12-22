@@ -1,0 +1,26 @@
+﻿@using ShopService.Models.DeliveryIntervalTemplateViewModels
+
+@model DeliveryIntervalEditModel
+
+<div class="row">
+    <h3>@Model.DeliveryIntervalTemplate.Name</h3>
+    <form asp-controller="DeliveryInterval" asp-action="SaveDeliveryInterval" method="post">
+        <div class="form-group">
+            @for (var i = 0; i < Model.DeliveryIntervalTemplate.DatesCountInMonth; i++)
+            {
+                <input name="MonthDays" id="MonthDays" type="number" min="1" max="31" value="1" required=""/>
+            }
+        </div>
+        <div>
+            <button class="btn btn-success" type="submit">Сохранить интервал</button>
+        </div>
+    </form>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            
+        });
+</script>
+}

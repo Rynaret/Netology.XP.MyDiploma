@@ -5,16 +5,16 @@ using ShopService.Entities;
 
 namespace ShopService.Initializers
 {
-    public class SubscribtionInitializer : IInitializable
+    public class SubscriptionInitializer : IInitializable
     {
         private readonly DbContext _dbContext;
 
-        public SubscribtionInitializer(DbContext dbContext)
+        public SubscriptionInitializer(DbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public int Order => 1;
+        public int Order => 3;
         public void Initialize()
         {
             var subscriptionsInDb = _dbContext.Set<Subscription>().ToList();

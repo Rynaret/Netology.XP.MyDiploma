@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using ShopService.Conventions.CQS.Commands;
 using ShopService.Entities;
 
-namespace ShopService.Models.DeliveryIntervalTemplateViewModels
+namespace ShopService.CQS.Contexts
 {
-    public class DeliveryIntervalEditModel
+    public class SaveDeliveryIntervalContext : ICommandContext
     {
-        public DeliveryIntervalEditModel(){}
+        public SaveDeliveryIntervalContext() { }
 
-        public DeliveryIntervalEditModel(DeliveryIntervalTemplate deliveryIntervalTemplate)
+        public SaveDeliveryIntervalContext(DeliveryIntervalTemplate deliveryIntervalTemplate)
         {
             DeliveryIntervalTemplate = deliveryIntervalTemplate;
         }

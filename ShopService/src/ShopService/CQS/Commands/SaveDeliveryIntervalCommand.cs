@@ -8,6 +8,7 @@ using ShopService.Conventions.CQS.Commands;
 using ShopService.Conventions.CQS.Queries;
 using ShopService.CQS.Contexts;
 using ShopService.CQS.Criterions;
+using ShopService.CQS.Criterions.DeliveryIntervals;
 using ShopService.Entities;
 
 namespace ShopService.CQS.Commands
@@ -31,10 +32,13 @@ namespace ShopService.CQS.Commands
             if (template == null) throw new Exception("Шаблон доставки не найден!");
 
             var cronDaysString = BuildCronDaysString(commandContext.MonthDays);
+            var cronFormatMonthFrequency = template.CronFormatMonthFrequency;
+            var cronMonthString = cronFormatMonthFrequency.Substring(1, cronFormatMonthFrequency.Length - 1);
+            cronMonthString = $"{DateTime.Today.Month}{cronMonthString}";
             var delivery = new DeliveryInterval
             {
                 DeliveryIntervalTemplateId = commandContext.DeliveryIntervalTemplate.Id,
-                CronString = $"0 0 0 {cronDaysString} {template.CronFormatMonthFrequency} *"
+                CronString = $"0 0 0 {cronDaysString} {cronMonthString} *"
             };
 
             var repositoryContext = new SaveDeliveryIntervalRepositoryContext(delivery);

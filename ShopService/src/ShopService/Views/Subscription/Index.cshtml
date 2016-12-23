@@ -19,9 +19,17 @@
 </div>
 <div class="row">
     <div class="pull-left">
-        <a class="btn btn-sm btn-primary" asp-controller="DeliveryInterval" asp-action="Index">
-            Интервалы доставки
-        </a>
+        <h3>Интервал доставки</h3>
+        @if (Model.DeliveryIntervalExist)
+        {
+            <h4>Текущий интервал доставки @Model.DeliveryInterval.DeliveryIntervalTemplate.Name, 
+            дата(ы) @Model.DeliveryInterval.SelectedDays</h4>
+        }
+        <div>
+            <a class="btn btn-sm btn-primary" asp-controller="DeliveryInterval" asp-action="Index">
+                @(Model.DeliveryIntervalExist ? "Сменить интервал доставки" : "Перейти к интервалам доставки")
+            </a>
+        </div>
     </div>
     <div class="pull-right">
         <h3>Сумма товаров: @Model.ProductsPricesSum $</h3>

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ShopService.Conventions.CQS.Queries;
 using ShopService.Conventions.Repositories;
 using ShopService.CQS.Criterions;
+using ShopService.CQS.Criterions.Products;
 using ShopService.Entities;
 
 namespace ShopService.CQS.RepositoryQueries.Products

@@ -1,4 +1,7 @@
-﻿using ShopService.Conventions;
+﻿using NCrontab.Advanced;
+using NCrontab.Advanced.Enumerations;
+using ShopService.Conventions;
+using ShopService.Conventions.Extensions;
 
 namespace ShopService.Entities
 {
@@ -10,5 +13,7 @@ namespace ShopService.Entities
         public long DeliveryIntervalTemplateId { get; set; }
 
         public DeliveryIntervalTemplate DeliveryIntervalTemplate { get; set; }
+
+        public string SelectedDays => CronString.GetDays();
     }
 }

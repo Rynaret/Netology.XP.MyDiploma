@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using ShopService.Conventions.CQS.Commands;
 using ShopService.Conventions.CQS.Queries;
 using ShopService.CQS.Contexts;
-using ShopService.CQS.Criterions;
+using ShopService.CQS.Criterions.DeliveryIntervals;
+using ShopService.CQS.Criterions.Products;
+using ShopService.CQS.Criterions.Subscriptions;
 using ShopService.Entities;
 using ShopService.Models.SubscriptionViewModels;
 
@@ -29,11 +31,10 @@ namespace ShopService.Controllers
             var productsSumInSubscriptionCriterion = new CalculateProductsSumInSubscriptionCriterion();
             var sum = await _queryBuilder.For<double>().WithAsync(productsSumInSubscriptionCriterion);
 
-            var deliveryIntervalTemplatesCriterion = new AllDeliveryIntervalTemplatesCriterion();
-            var deliveryIntervalTemplates = await _queryBuilder.For<List<DeliveryIntervalTemplate>>().
-                WithAsync(deliveryIntervalTemplatesCriterion);
+            var deliveryIntervalForSubscriptionCriterion = new DeliveryIntervalWithTemplateForSubscriptionCriterion();
+            var deliveryInterval = await _queryBuilder.For<DeliveryInterval>().WithAsync(deliveryIntervalForSubscriptionCriterion);
 
-            var viewModel = new SubscriptionViewModel(products, sum, deliveryIntervalTemplates);
+            var viewModel = new SubscriptionViewModel(products, sum, deliveryInterval);
 
             return View(viewModel);
         }

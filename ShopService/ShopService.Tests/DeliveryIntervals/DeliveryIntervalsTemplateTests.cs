@@ -6,7 +6,7 @@ using Moq;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using ShopService.Conventions.CQS.Queries;
-using ShopService.CQS.Criterions;
+using ShopService.CQS.Criterions.DeliveryIntervals;
 using ShopService.CQS.Queries.Deliveries;
 using ShopService.Entities;
 

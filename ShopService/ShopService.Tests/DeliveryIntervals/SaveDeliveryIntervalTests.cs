@@ -6,6 +6,7 @@ using ShopService.Conventions.CQS.Queries;
 using ShopService.CQS.Commands;
 using ShopService.CQS.Contexts;
 using ShopService.CQS.Criterions;
+using ShopService.CQS.Criterions.DeliveryIntervals;
 using ShopService.Entities;
 
 namespace ShopService.Tests.DeliveryIntervals

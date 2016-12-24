@@ -56,7 +56,7 @@ namespace ShopService.Tests.Subscribtions
         }
 
         [Test]
-        public async Task ShouldRemoveLastSubcriptionDate_WhenSubscriptionHasBeenSuspendedToday()
+        public async Task ShouldRemoveLastSubcriptionDate_WhenSubscriptionHasBeenAlreadyStartedOrSuspendedToday()
         {
             var subscriptionId = 1;
             var subscriptionDateId = 1;
@@ -64,7 +64,6 @@ namespace ShopService.Tests.Subscribtions
             {
                 Id = subscriptionDateId,
                 SubscriptionId = subscriptionId,
-                Type = SubscriptionDateType.Suspend,
                 Date = DateTime.UtcNow
             };
             SetupMocks(subscriptionId, lastSubscriptionDate);
@@ -79,5 +78,32 @@ namespace ShopService.Tests.Subscribtions
                 , Times.Once);
         }
 
+        [TestCase(SubscriptionDateType.Suspend)]
+        [TestCase(SubscriptionDateType.Start)]
+        public async Task ShouldAddResumedSubcriptionDate_WhenLastSubscriptionDateWasTypeOfStartedAndViceVersa
+            (SubscriptionDateType type)
+        {
+            var subscriptionId = 1;
+            var subscriptionDateId = 1;
+            SubscriptionDate lastSubscriptionDate = new SubscriptionDate
+            {
+                Id = subscriptionDateId,
+                SubscriptionId = subscriptionId,
+                Type = type
+            };
+            SetupMocks(subscriptionId, lastSubscriptionDate);
+            var commandContext = new SuspendResumeSubscriptionContext();
+            var command = new SuspendResumeSubscriptionCommand(_queryBuilderMock.Object, _commandBuilderMock.Object);
+
+            await command.ExecuteAsync(commandContext);
+
+            var newSubscriptionDateType = lastSubscriptionDate.Type == SubscriptionDateType.Start
+                    ? SubscriptionDateType.Suspend
+                    : SubscriptionDateType.Start;
+            _commandBuilderMock.Verify(x => x.ExecuteAsync(It.Is<AddSubcriptionDateRepositoryContext>
+                (y => y.SubscriptionDate.SubscriptionId == subscriptionId
+                   && y.SubscriptionDate.Type == newSubscriptionDateType))
+                , Times.Once);
+        }
     }
 }

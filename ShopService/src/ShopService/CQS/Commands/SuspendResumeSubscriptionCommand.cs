@@ -38,24 +38,24 @@ namespace ShopService.CQS.Commands
                 SubscriptionId = subscriptionId,
             };
 
-            if (lastSubscriptionDate == null)
+            if (lastSubscriptionDate != null)
             {
-                newSubscriptionDate.Type = SubscriptionDateType.Start;
-                var addSubscriptionDateContext = new AddSubcriptionDateRepositoryContext(newSubscriptionDate);
-                return await _commandBuilder.ExecuteAsync(addSubscriptionDateContext);
+                var lastSubscriptionDateIsToday = lastSubscriptionDate.Date.Date == today.Date;
+
+                if (lastSubscriptionDateIsToday)
+                {
+                    var removeSubscriptionDateContext = new RemoveSubcriptionDateRepositoryContext(lastSubscriptionDate);
+                    return await _commandBuilder.ExecuteAsync(removeSubscriptionDateContext);
+                }
+
+                newSubscriptionDate.Type = lastSubscriptionDate.Type == SubscriptionDateType.Start
+                    ? SubscriptionDateType.Suspend
+                    : SubscriptionDateType.Start;
             }
+            else newSubscriptionDate.Type = SubscriptionDateType.Start;
 
-            var lastSubscriptionDateIsToday = lastSubscriptionDate.Date.Date == today.Date;
-            var lastSubscriptionDateTypeIsStart = lastSubscriptionDate.Type == SubscriptionDateType.Start;
-            var lastSubscriptionDateTypeIsSuspend = lastSubscriptionDate.Type == SubscriptionDateType.Suspend;
-
-            if (lastSubscriptionDateIsToday && lastSubscriptionDateTypeIsSuspend)
-            {
-                var removeSubscriptionDateContext = new RemoveSubcriptionDateRepositoryContext(lastSubscriptionDate);
-                return await _commandBuilder.ExecuteAsync(removeSubscriptionDateContext);
-            }
-
-            throw new System.NotImplementedException();
+            var addSubscriptionDateContext = new AddSubcriptionDateRepositoryContext(newSubscriptionDate);
+            return await _commandBuilder.ExecuteAsync(addSubscriptionDateContext);
         }
     }
 }

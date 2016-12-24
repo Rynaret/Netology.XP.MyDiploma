@@ -41,12 +41,18 @@ namespace ShopService.CQS.Commands
             if (lastSubscriptionDate == null)
             {
                 newSubscriptionDate.Type = SubscriptionDateType.Start;
-                var addSubscriptionDate = new AddSubcriptionDateContext(newSubscriptionDate);
-                return await _commandBuilder.ExecuteAsync(addSubscriptionDate);
+                var addSubscriptionDateContext = new AddSubcriptionDateRepositoryContext(newSubscriptionDate);
+                return await _commandBuilder.ExecuteAsync(addSubscriptionDateContext);
             }
-            else if (lastSubscriptionDate.Date.Date == today.Date)
+
+            var lastSubscriptionDateIsToday = lastSubscriptionDate.Date.Date == today.Date;
+            var lastSubscriptionDateTypeIsStart = lastSubscriptionDate.Type == SubscriptionDateType.Start;
+            var lastSubscriptionDateTypeIsSuspend = lastSubscriptionDate.Type == SubscriptionDateType.Suspend;
+
+            if (lastSubscriptionDateIsToday && lastSubscriptionDateTypeIsSuspend)
             {
-                
+                var removeSubscriptionDateContext = new RemoveSubcriptionDateRepositoryContext(lastSubscriptionDate);
+                return await _commandBuilder.ExecuteAsync(removeSubscriptionDateContext);
             }
 
             throw new System.NotImplementedException();

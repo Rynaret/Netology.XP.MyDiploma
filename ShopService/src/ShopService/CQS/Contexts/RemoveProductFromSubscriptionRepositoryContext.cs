@@ -2,9 +2,9 @@
 
 namespace ShopService.CQS.Contexts
 {
-    public class RemoveFromSubscriptionContext : ICommandContext
+    public class RemoveProductFromSubscriptionRepositoryContext : ICommandContext
     {
-        public RemoveFromSubscriptionContext(long productId)
+        public RemoveProductFromSubscriptionRepositoryContext(long productId)
         {
             ProductId = productId;
         }

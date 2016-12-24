@@ -1,12 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using ShopService.Conventions.CQS.Commands;
 using ShopService.Conventions.CQS.Queries;
 using ShopService.Conventions.Enums;
+using ShopService.Conventions.Repositories;
 using ShopService.CQS.Commands;
 using ShopService.CQS.Contexts;
 using ShopService.CQS.Criterions.Subscriptions;
+using ShopService.CQS.RepositoryCommands;
 using ShopService.Entities;
 
 namespace ShopService.Tests.Subscribtions
@@ -35,7 +38,8 @@ namespace ShopService.Tests.Subscribtions
                 .ReturnsAsync(lastSubscriptionDate);
         }
 
-        public async Task ShouldAddSubcriptionDate_WhenSubscripingFirstTime(int productsCount)
+        [Test]
+        public async Task ShouldAddSubcriptionDate_WhenSubscripingFirstTime()
         {
             var subscriptionId = 1;
             SubscriptionDate subscriptionDate = null;
@@ -43,13 +47,37 @@ namespace ShopService.Tests.Subscribtions
             var commandContext = new SuspendResumeSubscriptionContext();
             var command = new SuspendResumeSubscriptionCommand(_queryBuilderMock.Object, _commandBuilderMock.Object);
 
-            var commandResult = await command.ExecuteAsync(commandContext);
+            await command.ExecuteAsync(commandContext);
 
-            _commandBuilderMock.Verify(x => x.ExecuteAsync(It.Is<AddSubcriptionDateContext>
+            _commandBuilderMock.Verify(x => x.ExecuteAsync(It.Is<AddSubcriptionDateRepositoryContext>
                 (y => y.SubscriptionDate.SubscriptionId == subscriptionId
                    && y.SubscriptionDate.Type == SubscriptionDateType.Start))
                 , Times.Once);
-            Assert.AreEqual(commandResult.IsDone, Is.True);
         }
+
+        [Test]
+        public async Task ShouldRemoveLastSubcriptionDate_WhenSubscriptionHasBeenSuspendedToday()
+        {
+            var subscriptionId = 1;
+            var subscriptionDateId = 1;
+            SubscriptionDate lastSubscriptionDate = new SubscriptionDate
+            {
+                Id = subscriptionDateId,
+                SubscriptionId = subscriptionId,
+                Type = SubscriptionDateType.Suspend,
+                Date = DateTime.UtcNow
+            };
+            SetupMocks(subscriptionId, lastSubscriptionDate);
+            var commandContext = new SuspendResumeSubscriptionContext();
+            var command = new SuspendResumeSubscriptionCommand(_queryBuilderMock.Object, _commandBuilderMock.Object);
+
+            await command.ExecuteAsync(commandContext);
+
+            _commandBuilderMock.Verify(x => x.ExecuteAsync(It.Is<RemoveSubcriptionDateRepositoryContext>
+                (y => y.SubscriptionDate.SubscriptionId == subscriptionId
+                   && y.SubscriptionDate.Id == subscriptionDateId))
+                , Times.Once);
+        }
+
     }
 }

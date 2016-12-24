@@ -51,7 +51,7 @@ namespace ShopService.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveFromSubscription(long id)
         {
-            var removeFromSubscriptionContext = new RemoveFromSubscriptionContext(id);
+            var removeFromSubscriptionContext = new RemoveProductFromSubscriptionContext(id);
             await _commandBuilder.ExecuteAsync(removeFromSubscriptionContext);
 
             return RedirectToAction("Index");

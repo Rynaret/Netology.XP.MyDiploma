@@ -3,9 +3,9 @@ using ShopService.Entities;
 
 namespace ShopService.CQS.Contexts
 {
-    public class AddSubcriptionDateContext : ICommandContext
+    public class AddSubcriptionDateRepositoryContext : ICommandContext
     {
-        public AddSubcriptionDateContext(SubscriptionDate subscriptionDate)
+        public AddSubcriptionDateRepositoryContext(SubscriptionDate subscriptionDate)
         {
             SubscriptionDate = subscriptionDate;
         }

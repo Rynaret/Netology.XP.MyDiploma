@@ -5,18 +5,18 @@ using ShopService.CQS.Contexts;
 
 namespace ShopService.CQS.Commands
 {
-    public class RemoveFromSubscriptionCommand : ICommand<RemoveFromSubscriptionContext>
+    public class RemoveProductFromSubscriptionCommand : ICommand<RemoveProductFromSubscriptionContext>
     {
         private readonly ICommandBuilder _commandBuilder;
 
-        public RemoveFromSubscriptionCommand(ICommandBuilder commandBuilder)
+        public RemoveProductFromSubscriptionCommand(ICommandBuilder commandBuilder)
         {
             _commandBuilder = commandBuilder;
         }
 
-        public Task<CommandResult> ExecuteAsync(RemoveFromSubscriptionContext commandContext)
+        public Task<CommandResult> ExecuteAsync(RemoveProductFromSubscriptionContext commandContext)
         {
-            var repoContext = new RemoveFromSubscriptionRepositoryContext(commandContext.ProductId);
+            var repoContext = new RemoveProductFromSubscriptionRepositoryContext(commandContext.ProductId);
             return _commandBuilder.ExecuteAsync(repoContext);
         }
     }

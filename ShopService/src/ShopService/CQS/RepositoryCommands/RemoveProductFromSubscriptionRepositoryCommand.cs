@@ -9,16 +9,16 @@ using ShopService.Entities;
 
 namespace ShopService.CQS.RepositoryCommands
 {
-    public class RemoveFromSubscriptionRepositoryCommand : ICommand<RemoveFromSubscriptionRepositoryContext>
+    public class RemoveProductFromSubscriptionRepositoryCommand : ICommand<RemoveProductFromSubscriptionRepositoryContext>
     {
         private readonly IRepository<Product> _productRepository;
 
-        public RemoveFromSubscriptionRepositoryCommand(IRepository<Product> productRepository)
+        public RemoveProductFromSubscriptionRepositoryCommand(IRepository<Product> productRepository)
         {
             _productRepository = productRepository;
         }
 
-        public async Task<CommandResult> ExecuteAsync(RemoveFromSubscriptionRepositoryContext commandContext)
+        public async Task<CommandResult> ExecuteAsync(RemoveProductFromSubscriptionRepositoryContext commandContext)
         {
             var product = await _productRepository.Query
                 .Where(x => x.Id == commandContext.ProductId)

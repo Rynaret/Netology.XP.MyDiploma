@@ -37,18 +37,18 @@ namespace ShopService.Controllers
         public async Task<IActionResult> AddToSubscription(long id)
         {
             var addToSubscriptionContext = new AddToSubscriptionContext(id);
-            await _commandBuilder.ExecuteAsync(addToSubscriptionContext);
+            var commandResult = await _commandBuilder.ExecuteAsync(addToSubscriptionContext);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", routeValues: commandResult.Message);
         }
 
         [HttpPost]
         public async Task<IActionResult> RemoveFromSubscription(long id)
         {
             var removeFromSubscriptionContext = new RemoveProductFromSubscriptionContext(id);
-            await _commandBuilder.ExecuteAsync(removeFromSubscriptionContext);
+            var commandResult = await _commandBuilder.ExecuteAsync(removeFromSubscriptionContext);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", routeValues: commandResult.Message);
         }
 
         [HttpPost]
@@ -57,7 +57,7 @@ namespace ShopService.Controllers
             var commandContext = new SuspendResumeSubscriptionContext();
             var commandResult = await _commandBuilder.ExecuteAsync(commandContext);
 
-            return RedirectToAction("Index", commandResult.Message);
+            return RedirectToAction("Index", routeValues: commandResult.Message);
         }
     }
 }

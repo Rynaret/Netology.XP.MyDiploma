@@ -9,7 +9,9 @@ namespace ShopService.Entities
 
         public long? DeliveryIntervalId { get; set; }
 
+
         public DeliveryInterval DeliveryInterval { get; set; }
         public ICollection<Product> Products { get; set; }
+        public ICollection<SubscriptionDate> SubscriptionDates { get; set; }
     }
 }

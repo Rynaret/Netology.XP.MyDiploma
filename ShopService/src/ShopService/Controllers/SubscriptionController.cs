@@ -56,5 +56,14 @@ namespace ShopService.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SuspendResumeSubscription()
+        {
+            var removeFromSubscriptionContext = new SuspendResumeSubscriptionContext();
+            await _commandBuilder.ExecuteAsync(removeFromSubscriptionContext);
+
+            return RedirectToAction("Index");
+        }
     }
 }

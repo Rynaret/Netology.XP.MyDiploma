@@ -5,7 +5,7 @@ using Moq;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 using ShopService.Conventions.CQS.Queries;
-using ShopService.CQS.Criterions;
+using ShopService.CQS.Commands;
 using ShopService.CQS.Criterions.Subscriptions;
 using ShopService.CQS.Queries.Subscriptions;
 using ShopService.Entities;

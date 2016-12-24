@@ -40,6 +40,7 @@ namespace ShopService.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<DeliveryInterval> DeliveryIntervals { get; set; }
+        public DbSet<SubscriptionDate> SubscriptionDates { get; set; }
         public DbSet<DeliveryIntervalTemplate> DeliveryIntervalTemplates { get; set; }
     }
 }

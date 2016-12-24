@@ -23,18 +23,12 @@ namespace ShopService.Controllers
             _commandBuilder = commandBuilder;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string error)
         {
-            var allProductsCriterion = new AllProductsCriterion();
-            var products = await _queryBuilder.For<List<Product>>().WithAsync(allProductsCriterion);
+            var subscriptionViewModelCriterion = new SubscriptionViewModelCriterion();
+            var viewModel = await _queryBuilder.For<SubscriptionViewModel>().WithAsync(subscriptionViewModelCriterion);
 
-            var productsSumInSubscriptionCriterion = new CalculateProductsSumInSubscriptionCriterion();
-            var sum = await _queryBuilder.For<double>().WithAsync(productsSumInSubscriptionCriterion);
-
-            var deliveryIntervalForSubscriptionCriterion = new DeliveryIntervalWithTemplateForSubscriptionCriterion();
-            var deliveryInterval = await _queryBuilder.For<DeliveryInterval>().WithAsync(deliveryIntervalForSubscriptionCriterion);
-
-            var viewModel = new SubscriptionViewModel(products, sum, deliveryInterval);
+            if(!string.IsNullOrWhiteSpace(error)) ModelState.AddModelError(string.Empty, error);
 
             return View(viewModel);
         }
@@ -60,10 +54,10 @@ namespace ShopService.Controllers
         [HttpPost]
         public async Task<IActionResult> SuspendResumeSubscription()
         {
-            var removeFromSubscriptionContext = new SuspendResumeSubscriptionContext();
-            await _commandBuilder.ExecuteAsync(removeFromSubscriptionContext);
+            var commandContext = new SuspendResumeSubscriptionContext();
+            var commandResult = await _commandBuilder.ExecuteAsync(commandContext);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", commandResult.Message);
         }
     }
 }

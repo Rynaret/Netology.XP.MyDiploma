@@ -1,6 +1,9 @@
-﻿@model ShopService.Entities.Product
+﻿@* LastSubscriptionDateIsTypeOfStarted *@
+@model bool 
 
 @using (Html.BeginForm("SuspendResumeSubscription", "Subscription", FormMethod.Post))
 {
-    <button class="btn btn-danger btn-sm">Приостановить</button>
+    <button class="btn btn-@(Model ? "danger" : "success") btn-sm">
+        @(Model ? "Приостановить" : "Подписаться")
+    </button>
 }

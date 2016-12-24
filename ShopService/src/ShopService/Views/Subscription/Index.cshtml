@@ -25,16 +25,19 @@
             <h4>Текущий интервал доставки @Model.DeliveryInterval.DeliveryIntervalTemplate.Name,
                 дата(ы) @Model.DeliveryInterval.SelectedDays</h4>
         }
-        <div>
+        <div class="form-group">
             <a class="btn btn-sm btn-primary" asp-controller="DeliveryInterval" asp-action="Index">
                 @(Model.DeliveryIntervalExist ? "Сменить интервал доставки" : "Перейти к интервалам доставки")
             </a>
-            @await Html.PartialAsync("./Partials/_SuspendResumeSubscriptionPartial")
         </div>
+        @await Html.PartialAsync("./Partials/_SuspendResumeSubscriptionPartial", Model.LastSubscriptionDateIsTypeOfStarted)
     </div>
     <div class="pull-right">
         <h3>Сумма товаров: @Model.ProductsPricesSum $</h3>
     </div>
+</div>
+<div class="row">
+    <div asp-validation-summary="All" class="text-danger"></div>
 </div>
 
 @section scripts{

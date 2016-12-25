@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ShopService.Conventions.CQS.Commands;
 using ShopService.Conventions.CQS.Queries;
 using ShopService.CQS.Contexts;
-using ShopService.CQS.Criterions.DeliveryIntervals;
-using ShopService.CQS.Criterions.Products;
 using ShopService.CQS.Criterions.Subscriptions;
-using ShopService.Entities;
 using ShopService.Models.SubscriptionViewModels;
 
 namespace ShopService.Controllers
@@ -23,9 +22,9 @@ namespace ShopService.Controllers
             _commandBuilder = commandBuilder;
         }
 
-        public async Task<IActionResult> Index(string error)
+        public async Task<IActionResult> Index(string error, DateTime? pointedTodayDate = null)
         {
-            var subscriptionViewModelCriterion = new SubscriptionViewModelCriterion();
+            var subscriptionViewModelCriterion = new SubscriptionViewModelCriterion(pointedTodayDate ?? DateTime.Today);
             var viewModel = await _queryBuilder.For<SubscriptionViewModel>().WithAsync(subscriptionViewModelCriterion);
 
             if(!string.IsNullOrWhiteSpace(error)) ModelState.AddModelError(string.Empty, error);
@@ -39,7 +38,7 @@ namespace ShopService.Controllers
             var addToSubscriptionContext = new AddToSubscriptionContext(id);
             var commandResult = await _commandBuilder.ExecuteAsync(addToSubscriptionContext);
 
-            return RedirectToAction("Index", routeValues: commandResult.Message);
+            return RedirectToAction("Index", new { error = commandResult.Message });
         }
 
         [HttpPost]
@@ -48,7 +47,7 @@ namespace ShopService.Controllers
             var removeFromSubscriptionContext = new RemoveProductFromSubscriptionContext(id);
             var commandResult = await _commandBuilder.ExecuteAsync(removeFromSubscriptionContext);
 
-            return RedirectToAction("Index", routeValues: commandResult.Message);
+            return RedirectToAction("Index", new { error = commandResult.Message });
         }
 
         [HttpPost]
@@ -57,7 +56,21 @@ namespace ShopService.Controllers
             var commandContext = new SuspendResumeSubscriptionContext();
             var commandResult = await _commandBuilder.ExecuteAsync(commandContext);
 
-            return RedirectToAction("Index", routeValues: commandResult.Message);
+            return RedirectToAction("Index", new { error = commandResult.Message });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ReloadWithPointedDate(SetTodayDateModel model)
+        {
+            var todayValue = ModelState.Values.ToList().FirstOrDefault()?.RawValue.ToString();
+            CultureInfo provider = CultureInfo.InvariantCulture;
+
+            DateTime dateTime;
+            if (DateTime.TryParseExact(todayValue, "dd.MM.yyyy", provider, DateTimeStyles.None, out dateTime))
+                model.Today = dateTime;
+            
+            return RedirectToAction("Index", new { pointedTodayDate = model.Today });
+        }
+        
     }
 }

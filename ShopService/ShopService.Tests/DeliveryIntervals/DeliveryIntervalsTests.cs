@@ -15,12 +15,10 @@ namespace ShopService.Tests.DeliveryIntervals
     public class DeliveryIntervalsTests
     {
         private Mock<IQueryBuilder> _queryBuilderMock;
-        private List<DeliveryIntervalTemplate> _deliveryIntervalTemplates;
 
         [SetUp]
         public void SetUp()
         {
-            _deliveryIntervalTemplates = new List<DeliveryIntervalTemplate>();
             _queryBuilderMock = new Mock<IQueryBuilder>();
         }
 

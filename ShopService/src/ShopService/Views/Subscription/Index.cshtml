@@ -39,13 +39,19 @@
     </div>
 </div>
 <div class="row">
+    <div class="pull-right">
+        @await Html.PartialAsync("./Partials/_SetTodayDatePartial", new SetTodayDateModel(DateTime.Today))
+    </div>
+</div>
+<div class="row">
     <div asp-validation-summary="All" class="text-danger"></div>
 </div>
 
 @section scripts{
     <script type="text/javascript">
         $(function () {
-            
+            var date = $(".js-datepicker").datepicker("getDate");
+            $(".js-datepicker").datepicker("setDate", date);
         });
 </script>
 }

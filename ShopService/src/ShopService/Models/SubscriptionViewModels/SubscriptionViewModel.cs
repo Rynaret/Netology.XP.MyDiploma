@@ -7,15 +7,6 @@ namespace ShopService.Models.SubscriptionViewModels
 {
     public class SubscriptionViewModel
     {
-        public SubscriptionViewModel(List<Product> products, double productsPricesSum
-            , DeliveryInterval deliveryInterval, List<SubscriptionDate> subscriptionDates)
-        {
-            Products = products;
-            ProductsPricesSum = productsPricesSum;
-            DeliveryInterval = deliveryInterval;
-            SubscriptionDates = subscriptionDates;
-        }
-
         public List<Product> Products { get; set; }
         public double ProductsPricesSum { get; set; }
         public DeliveryInterval DeliveryInterval { get; set; }
@@ -27,5 +18,7 @@ namespace ShopService.Models.SubscriptionViewModels
             .OrderByDescending(x => x.Date)
             .Select(x => x.Type)
             .FirstOrDefault()  == SubscriptionDateType.Start;
+
+        public double SpendedAmount { get; set; }
     }
 }

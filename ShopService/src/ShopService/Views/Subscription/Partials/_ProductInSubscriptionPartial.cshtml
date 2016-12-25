@@ -1,7 +1,6 @@
 ﻿@model ShopService.Entities.Product
 
-@using (Html.BeginForm("RemoveFromSubscription", "Subscription", FormMethod.Post))
-{
+<form asp-action="RemoveFromSubscription" asp-controller="Subscription" method="post">
     @Html.HiddenFor(x => x.Id)
     <div class="col-xs-4">
         <div class="panel panel-default">
@@ -16,4 +15,4 @@
             </div>
         </div>
     </div>
-}
+</form>

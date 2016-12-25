@@ -24,7 +24,7 @@ namespace ShopService.CQS.Commands
 
         public async Task<CommandResult> ExecuteAsync(SuspendResumeSubscriptionContext commandContext)
         {
-            var today = DateTime.UtcNow;
+            var today = commandContext.Today;
 
             var subscriptionIdCriterion = new SubscriptionIdCriterion();
             var subscriptionId = await _queryBuilder.For<long>().WithAsync(subscriptionIdCriterion);
@@ -34,7 +34,7 @@ namespace ShopService.CQS.Commands
 
             var newSubscriptionDate = new SubscriptionDate
             {
-                Date = DateTime.UtcNow,
+                Date = today,
                 SubscriptionId = subscriptionId,
             };
 

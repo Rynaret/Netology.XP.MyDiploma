@@ -37,6 +37,7 @@ namespace ShopService.CQS.Queries.Subscriptions
 
             var viewModel = new SubscriptionViewModel
             {
+                Today = criterion.PointedTodayDate,
                 Products = products,
                 DeliveryInterval = deliveryInterval,
                 SubscriptionDates = subscriptionDates,

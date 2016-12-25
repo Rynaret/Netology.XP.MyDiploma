@@ -37,14 +37,16 @@ namespace ShopService.CQS.Queries.Deliveries
             SubscriptionActiveInterval activeInterval = null;
             foreach (var subscriptionDate in subscriptionDates)
             {
+                if (subscriptionDate.Date >= criterion.Today) break;
+
                 if (subscriptionDate.Type == SubscriptionDateType.Start)
                 {
                     activeInterval = new SubscriptionActiveInterval(criterion.Today) {BeginAt = subscriptionDate.Date};
+                    subscriptionActiveIntervals.Add(activeInterval);
                 }
                 else
                 {
                     activeInterval.EndAt = subscriptionDate.Date;
-                    subscriptionActiveIntervals.Add(activeInterval);
                 }
             }
 

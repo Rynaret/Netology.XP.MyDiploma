@@ -21,18 +21,28 @@
 </div>
 <div class="row">
     <div class="pull-left">
-        <h3>Интервал доставки</h3>
-        @if (Model.DeliveryIntervalExist)
-        {
-            <h4>Текущий интервал доставки @Model.DeliveryInterval.DeliveryIntervalTemplate.Name,
-                дата(ы) @Model.DeliveryInterval.SelectedDays</h4>
-        }
-        <a class="btn btn-primary btn-raised pull-left" asp-controller="DeliveryInterval" asp-action="Index">
-            @(Model.DeliveryIntervalExist ? "Сменить интервал доставки" : "Перейти к интервалам доставки")
-        </a>
-        @await Html.PartialAsync("./Partials/_SuspendResumeSubscriptionPartial", Model.LastSubscriptionDateIsTypeOfStarted)
+        <div class="row">
+            <div class="col-xs-12">
+                <h3>Интервал доставки</h3>
+                @if (Model.DeliveryIntervalExist)
+                {
+                    <h4>
+                        Текущий интервал доставки @Model.DeliveryInterval.DeliveryIntervalTemplate.Name,
+                        дата(ы) @Model.DeliveryInterval.SelectedDays
+                    </h4>
+                }
+                <a class="btn btn-primary btn-raised pull-left" asp-controller="DeliveryInterval" asp-action="Index">
+                    @(Model.DeliveryIntervalExist ? "Сменить интервал доставки" : "Перейти к интервалам доставки")
+                </a>
+            </div>
+            <div class="col-xs-12">
+                <h3>История подписок</h3>
+                <h4>@Html.Raw(Model.SubscriptionDatesString)</h4>
+                @await Html.PartialAsync("./Partials/_SuspendResumeSubscriptionPartial", Model.LastSubscriptionDateIsTypeOfStarted)
+            </div>
+        </div>
     </div>
-    <div class="panel panel-default pull-right">
+    <div class="panel panel-default pull-right col-xs-4 text-right">
         <div class="panel-body">
             <span class="lead">Сумма товаров: @Model.ProductsPricesSum $</span>
         </div>
@@ -40,7 +50,7 @@
 </div>
 <div class="row">
     <div class="col-xs-3">
-        @await Html.PartialAsync("./Partials/_SetTodayDatePartial", new SetTodayDateModel(DateTime.Today))
+        @await Html.PartialAsync("./Partials/_SetTodayDatePartial", new SetTodayDateModel(Model.Today))
     </div>
     <div class="col-xs-3 pull-right text-right">
         <h3>Затраченно средств:</h3> <span class="lead text-primary">@Model.SpentAmount $</span>

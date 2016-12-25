@@ -103,5 +103,33 @@ namespace ShopService.Tests.DeliveryIntervals
 
             Assert.AreEqual(queryResult.Count, frequencyInMonth * suspendDateMonthValueAdd);
         }
+
+        [Test]
+        public async Task ShouldReturnDeliveryDatesForInterval_WhenSubscrsiptionIntervalIsEveryMonthAt5And8DaysOfMonth()
+        {
+            var monthsAhead = 3;
+            var today = DateTime.Today;
+            var showUntil = DateTime.Today.AddMonths(monthsAhead);
+            var subscriptionDates = new List<SubscriptionDate>
+            {
+                new SubscriptionDate
+                {
+                    Date = today.AddYears(-1),
+                    Type = SubscriptionDateType.Start
+                },
+            };
+            var frequencyInMonth = 2;
+            var deliveryInterval = new DeliveryInterval
+            {
+                CronString = "0 0 0 8,5 12/1 *"
+            };
+            SetupMocks(subscriptionDates, deliveryInterval);
+            var criterion = new DeliveryDatesCriterion(today, showUntil);
+            var query = new DeliveryDatesQuery(_queryBuilderMock.Object);
+
+            var queryResult = await query.AskAsync(criterion);
+
+            Assert.AreEqual(queryResult.Count, frequencyInMonth * monthsAhead);
+        }
     }
 }

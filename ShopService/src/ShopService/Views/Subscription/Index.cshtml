@@ -20,7 +20,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="pull-left">
+    <div class="pull-left col-xs-8">
         <div class="row">
             <div class="col-xs-12">
                 <h3>Интервал доставки</h3>
@@ -39,6 +39,10 @@
                 <h3>История подписок</h3>
                 <h4>@Html.Raw(Model.SubscriptionDatesString)</h4>
                 @await Html.PartialAsync("./Partials/_SuspendResumeSubscriptionPartial", Model.LastSubscriptionDateIsTypeOfStarted)
+            </div>
+            <div class="col-xs-12">
+                <h3>Планируемые даты доставки</h3>
+                <h4>@Html.Raw(Model.DeliveryDatesString)</h4>
             </div>
         </div>
     </div>

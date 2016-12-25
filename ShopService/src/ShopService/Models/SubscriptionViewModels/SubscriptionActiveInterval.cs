@@ -8,9 +8,9 @@ namespace ShopService.Models.SubscriptionViewModels
         {
         }
 
-        public SubscriptionActiveInterval(DateTime today)
+        public SubscriptionActiveInterval(DateTime endAt)
         {
-            EndAt = today;
+            EndAt = endAt;
         }
 
         public DateTime BeginAt { get; set; }

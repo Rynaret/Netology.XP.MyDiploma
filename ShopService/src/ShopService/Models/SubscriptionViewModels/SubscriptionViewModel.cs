@@ -32,9 +32,22 @@ namespace ShopService.Models.SubscriptionViewModels
             }
         }
 
+        public string DeliveryDatesString
+        {
+            get
+            {
+                var result = new StringBuilder();
+                foreach (var deliveryDate in DeliveryDates)
+                {
+                    result.AppendLine(deliveryDate.Date.ToString("dd.MM.yyyy<br/>"));
+                }
+                return result.ToString();
+            }
+        }
+
         public bool DeliveryIntervalExist => DeliveryInterval != null;
         public bool LastSubscriptionDateIsTypeOfStarted => SubscriptionDates
-            .Where(x => x.Date <= Today)
+            .Where(x => x.Date.Date <= Today.Date)
             .OrderByDescending(x => x.Date)
             .Select(x => x.Type)
             .FirstOrDefault()  == SubscriptionDateType.Start;

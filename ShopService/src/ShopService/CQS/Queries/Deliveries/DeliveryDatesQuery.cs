@@ -26,6 +26,7 @@ namespace ShopService.CQS.Queries.Deliveries
         {
             var deliveryDates = new List<DateTime>();
 
+            var today = criterion.Today;
             var showThreeMonthsAhead = criterion.ShowUntil;
             var subscriptionDatesCriterion = new SubscriptionDatesForSubscriptionCriterion();
             var subscriptionDates = await _queryBuilder.For<List<SubscriptionDate>>().WithAsync(subscriptionDatesCriterion);
@@ -33,7 +34,7 @@ namespace ShopService.CQS.Queries.Deliveries
             var lastSubscriptionDate = subscriptionDates.FirstOrDefault();
 
             if (lastSubscriptionDate == null) return deliveryDates;
-            if (lastSubscriptionDate.Type == SubscriptionDateType.Suspend && lastSubscriptionDate.Date <= criterion.Today)
+            if (lastSubscriptionDate.Type == SubscriptionDateType.Suspend && lastSubscriptionDate.Date <= today)
                 return deliveryDates;
 
             var subscriptionActiveIntervals = new List<SubscriptionActiveInterval>();
@@ -41,20 +42,33 @@ namespace ShopService.CQS.Queries.Deliveries
             SubscriptionActiveInterval activeInterval = null;
             foreach (var subscriptionDate in subscriptionDates)
             {
-                if (subscriptionDate.Date <= criterion.Today) continue;
+                if (subscriptionDate.Date <= today)
+                {
+                    if(subscriptionActiveIntervals.Any()) break;
+
+                    activeInterval = new SubscriptionActiveInterval
+                    {
+                        BeginAt = today,
+                        EndAt = showThreeMonthsAhead
+                    };
+                    subscriptionActiveIntervals.Add(activeInterval);
+
+                    break;
+                }
 
                 if (subscriptionDate.Type == SubscriptionDateType.Suspend)
                 {
                     activeInterval = new SubscriptionActiveInterval
                     {
-                        BeginAt = criterion.Today,
+                        BeginAt = today,
                         EndAt = subscriptionDate.Date
                     };
                     subscriptionActiveIntervals.Add(activeInterval);
                 }
                 else
                 {
-                    activeInterval.EndAt = subscriptionDate.Date;
+                    if(activeInterval == null) activeInterval = new SubscriptionActiveInterval(showThreeMonthsAhead);
+                    activeInterval.BeginAt = subscriptionDate.Date;
                 }
             }
 

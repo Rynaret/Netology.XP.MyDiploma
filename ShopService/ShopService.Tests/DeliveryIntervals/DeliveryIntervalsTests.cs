@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 using ShopService.Conventions.CQS.Queries;
 using ShopService.CQS.Criterions.DeliveryIntervals;
 using ShopService.CQS.Queries.Deliveries;
-using ShopService.Entities;
 
 namespace ShopService.Tests.DeliveryIntervals
 {

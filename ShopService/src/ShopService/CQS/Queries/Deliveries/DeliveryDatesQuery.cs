@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NCrontab.Advanced;
@@ -12,37 +13,43 @@ using ShopService.Models.SubscriptionViewModels;
 
 namespace ShopService.CQS.Queries.Deliveries
 {
-    public class CalculateSpentAmountQuery : IQuery<CalculateSpentAmountCriterion, double>
+    public class DeliveryDatesQuery : IQuery<DeliveryDatesCriterion, List<DateTime>>
     {
         private readonly IQueryBuilder _queryBuilder;
 
-        public CalculateSpentAmountQuery(IQueryBuilder queryBuilder)
+        public DeliveryDatesQuery(IQueryBuilder queryBuilder)
         {
             _queryBuilder = queryBuilder;
         }
 
-        public async Task<double> AskAsync(CalculateSpentAmountCriterion criterion)
+        public async Task<List<DateTime>> AskAsync(DeliveryDatesCriterion criterion)
         {
-            double calculatedSpendedAmount = 0;
+            var deliveryDates = new List<DateTime>();
 
+            var showThreeMonthsAhead = criterion.ShowUntil;
             var subscriptionDatesCriterion = new SubscriptionDatesForSubscriptionCriterion();
             var subscriptionDates = await _queryBuilder.For<List<SubscriptionDate>>().WithAsync(subscriptionDatesCriterion);
-            subscriptionDates = subscriptionDates.OrderBy(x => x.Date).ToList();
-            var firstSubscriptionDate = subscriptionDates.FirstOrDefault();
+            subscriptionDates = subscriptionDates.OrderByDescending(x => x.Date).ToList();
+            var lastSubscriptionDate = subscriptionDates.FirstOrDefault();
 
-            if (firstSubscriptionDate == null) return calculatedSpendedAmount;
-            if (firstSubscriptionDate.Date >= criterion.Today) return calculatedSpendedAmount;
+            if (lastSubscriptionDate == null) return deliveryDates;
+            if (lastSubscriptionDate.Type == SubscriptionDateType.Suspend && lastSubscriptionDate.Date <= criterion.Today)
+                return deliveryDates;
 
             var subscriptionActiveIntervals = new List<SubscriptionActiveInterval>();
 
             SubscriptionActiveInterval activeInterval = null;
             foreach (var subscriptionDate in subscriptionDates)
             {
-                if (subscriptionDate.Date >= criterion.Today) break;
+                if (subscriptionDate.Date <= criterion.Today) continue;
 
-                if (subscriptionDate.Type == SubscriptionDateType.Start)
+                if (subscriptionDate.Type == SubscriptionDateType.Suspend)
                 {
-                    activeInterval = new SubscriptionActiveInterval(criterion.Today) {BeginAt = subscriptionDate.Date};
+                    activeInterval = new SubscriptionActiveInterval
+                    {
+                        BeginAt = criterion.Today,
+                        EndAt = subscriptionDate.Date
+                    };
                     subscriptionActiveIntervals.Add(activeInterval);
                 }
                 else
@@ -58,10 +65,10 @@ namespace ShopService.CQS.Queries.Deliveries
             {
                 var cronInstance = CrontabSchedule.Parse(deliveryInterval.CronString, CronStringFormat.WithSeconds);
                 var nextOccurrences = cronInstance.GetNextOccurrences(subscriptionActiveInterval.BeginAt, subscriptionActiveInterval.EndAt);
-                calculatedSpendedAmount += nextOccurrences.Count() * criterion.SumOfProductsInSubscription;
+                deliveryDates.AddRange(nextOccurrences);
             }
 
-            return calculatedSpendedAmount;
+            return deliveryDates;
         }
     }
 }

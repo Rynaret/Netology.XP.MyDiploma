@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ShopService.Conventions.CQS.Queries;
 using ShopService.CQS.Criterions.DeliveryIntervals;
@@ -35,6 +36,9 @@ namespace ShopService.CQS.Queries.Subscriptions
             var calculateSpentAmountCriterion = new CalculateSpentAmountCriterion(criterion.PointedTodayDate, sum);
             var spentAmount = await _queryBuilder.For<double>().WithAsync(calculateSpentAmountCriterion);
 
+            var deliveryDatesCriterion = new DeliveryDatesCriterion(criterion.PointedTodayDate, criterion.PointedTodayDate.AddMonths(3));
+            var deliveryDates = await _queryBuilder.For<List<DateTime>>().WithAsync(deliveryDatesCriterion);
+
             var viewModel = new SubscriptionViewModel
             {
                 Today = criterion.PointedTodayDate,
@@ -42,7 +46,8 @@ namespace ShopService.CQS.Queries.Subscriptions
                 DeliveryInterval = deliveryInterval,
                 SubscriptionDates = subscriptionDates,
                 ProductsPricesSum = sum,
-                SpentAmount = spentAmount
+                SpentAmount = spentAmount,
+                DeliveryDates = deliveryDates
             };
 
             return viewModel;

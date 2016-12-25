@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ShopService.Conventions;
 using ShopService.Conventions.CQS.Commands;
 using ShopService.Conventions.CQS.Queries;

@@ -16,6 +16,7 @@ namespace ShopService.Models.SubscriptionViewModels
         public double ProductsPricesSum { get; set; }
         public DeliveryInterval DeliveryInterval { get; set; }
         public List<SubscriptionDate> SubscriptionDates { get; set; }
+        public List<DateTime> DeliveryDates { get; set; }
 
         public string SubscriptionDatesString
         {

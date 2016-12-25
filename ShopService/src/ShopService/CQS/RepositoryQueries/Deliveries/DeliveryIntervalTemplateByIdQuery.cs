@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using ShopService.Conventions.CQS.Queries;
 using ShopService.Conventions.Repositories;
-using ShopService.CQS.Criterions;
 using ShopService.CQS.Criterions.DeliveryIntervals;
 using ShopService.Entities;
 

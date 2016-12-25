@@ -5,11 +5,9 @@ using NUnit.Framework;
 using ShopService.Conventions.CQS.Commands;
 using ShopService.Conventions.CQS.Queries;
 using ShopService.Conventions.Enums;
-using ShopService.Conventions.Repositories;
 using ShopService.CQS.Commands;
 using ShopService.CQS.Contexts;
 using ShopService.CQS.Criterions.Subscriptions;
-using ShopService.CQS.RepositoryCommands;
 using ShopService.Entities;
 
 namespace ShopService.Tests.Subscribtions

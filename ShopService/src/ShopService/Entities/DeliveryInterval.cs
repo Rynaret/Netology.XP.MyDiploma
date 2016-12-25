@@ -1,6 +1,4 @@
-﻿using NCrontab.Advanced;
-using NCrontab.Advanced.Enumerations;
-using ShopService.Conventions;
+﻿using ShopService.Conventions;
 using ShopService.Conventions.Extensions;
 
 namespace ShopService.Entities

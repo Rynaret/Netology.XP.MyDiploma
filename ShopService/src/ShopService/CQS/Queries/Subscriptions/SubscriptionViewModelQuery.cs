@@ -32,8 +32,8 @@ namespace ShopService.CQS.Queries.Subscriptions
             var subscriptionDatesCriterion = new SubscriptionDatesForSubscriptionCriterion();
             var subscriptionDates = await _queryBuilder.For<List<SubscriptionDate>>().WithAsync(subscriptionDatesCriterion);
 
-            var calculateWastedAmountCriterion = new CalculateSpendedAmountCriterion(criterion.PointedTodayDate);
-            var wastedAmount = await _queryBuilder.For<double>().WithAsync(calculateWastedAmountCriterion);
+            var calculateSpentAmountCriterion = new CalculateSpentAmountCriterion(criterion.PointedTodayDate, sum);
+            var spentAmount = await _queryBuilder.For<double>().WithAsync(calculateSpentAmountCriterion);
 
             var viewModel = new SubscriptionViewModel
             {
@@ -41,7 +41,7 @@ namespace ShopService.CQS.Queries.Subscriptions
                 DeliveryInterval = deliveryInterval,
                 SubscriptionDates = subscriptionDates,
                 ProductsPricesSum = sum,
-                SpendedAmount = wastedAmount
+                SpentAmount = spentAmount
             };
 
             return viewModel;

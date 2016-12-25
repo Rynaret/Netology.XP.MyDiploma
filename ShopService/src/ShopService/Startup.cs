@@ -67,6 +67,8 @@ namespace ShopService
 
             services.AddOptions();
 
+            services.AddMemoryCache();
+
             services.AddMvc();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();

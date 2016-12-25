@@ -19,6 +19,6 @@ namespace ShopService.Models.SubscriptionViewModels
             .Select(x => x.Type)
             .FirstOrDefault()  == SubscriptionDateType.Start;
 
-        public double SpendedAmount { get; set; }
+        public double SpentAmount { get; set; }
     }
 }

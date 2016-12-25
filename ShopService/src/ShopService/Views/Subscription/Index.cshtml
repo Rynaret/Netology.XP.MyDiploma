@@ -39,8 +39,11 @@
     </div>
 </div>
 <div class="row">
-    <div class="pull-right">
+    <div class="col-xs-3">
         @await Html.PartialAsync("./Partials/_SetTodayDatePartial", new SetTodayDateModel(DateTime.Today))
+    </div>
+    <div class="col-xs-3 pull-right text-right">
+        <h3>Затраченно средств:</h3> <span class="lead text-primary">@Model.SpentAmount $</span>
     </div>
 </div>
 <div class="row">

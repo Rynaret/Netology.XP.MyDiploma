@@ -2,20 +2,22 @@
 @using ShopService.Models.SubscriptionViewModels
 @model SubscriptionViewModel
 
-<h1>Продукты</h1>
+<h1 class="row">Продукты</h1>
 
 <div class="row">
-    @foreach (var product in Model.Products)
-    {
-        if (product.InSubscription)
+    <div class="row">
+        @foreach (var product in Model.Products)
         {
-            @await Html.PartialAsync("./Partials/_ProductInSubscriptionPartial", product)
+            if (product.InSubscription)
+            {
+                @await Html.PartialAsync("./Partials/_ProductInSubscriptionPartial", product)
+            }
+            else
+            {
+                @await Html.PartialAsync("./Partials/_ProductPartial", product)
+            }
         }
-        else
-        {
-            @await Html.PartialAsync("./Partials/_ProductPartial", product)
-        }
-    }
+    </div>
 </div>
 <div class="row">
     <div class="pull-left">
@@ -25,15 +27,15 @@
             <h4>Текущий интервал доставки @Model.DeliveryInterval.DeliveryIntervalTemplate.Name,
                 дата(ы) @Model.DeliveryInterval.SelectedDays</h4>
         }
-        <div class="form-group">
-            <a class="btn btn-sm btn-primary" asp-controller="DeliveryInterval" asp-action="Index">
-                @(Model.DeliveryIntervalExist ? "Сменить интервал доставки" : "Перейти к интервалам доставки")
-            </a>
-        </div>
+        <a class="btn btn-primary btn-raised pull-left" asp-controller="DeliveryInterval" asp-action="Index">
+            @(Model.DeliveryIntervalExist ? "Сменить интервал доставки" : "Перейти к интервалам доставки")
+        </a>
         @await Html.PartialAsync("./Partials/_SuspendResumeSubscriptionPartial", Model.LastSubscriptionDateIsTypeOfStarted)
     </div>
-    <div class="pull-right">
-        <h3>Сумма товаров: @Model.ProductsPricesSum $</h3>
+    <div class="panel panel-default pull-right">
+        <div class="panel-body">
+            <span class="lead">Сумма товаров: @Model.ProductsPricesSum $</span>
+        </div>
     </div>
 </div>
 <div class="row">

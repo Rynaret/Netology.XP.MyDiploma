@@ -1,9 +1,16 @@
 ﻿@* LastSubscriptionDateIsTypeOfStarted *@
 @model bool 
 
-@using (Html.BeginForm("SuspendResumeSubscription", "Subscription", FormMethod.Post))
+@using (Html.BeginForm("SuspendResumeSubscription", "Subscription", FormMethod.Post, new { @class= "pull-left" }))
 {
-    <button class="btn btn-@(Model ? "danger" : "success") btn-sm">
-        @(Model ? "Приостановить" : "Подписаться")
+    <button class="btn btn-@(Model ? "danger" : "success") btn-raised">
+        @if (Model)
+        {
+            <span class="glyphicon glyphicon-pause"></span> @:Приостановить
+        }
+        else
+        {
+            <span class="glyphicon glyphicon-pencil"></span> @:Подписаться
+        }
     </button>
 }

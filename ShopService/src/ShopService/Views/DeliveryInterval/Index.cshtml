@@ -8,7 +8,7 @@
 <div class="row">
     @foreach (var template in Model.DeliveryIntervalTemplates)
     {
-        <a class="btn btn-primary btn-sm" 
+        <a class="btn btn-primary btn-sm btn-raised" 
            asp-controller="DeliveryInterval" 
            asp-action="Index" 
            asp-route-id="@template.Id">

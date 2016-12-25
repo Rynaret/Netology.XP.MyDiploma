@@ -7,17 +7,23 @@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-material-design/dist/css/bootstrap-material-design.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-material-design/dist/css/ripples.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-material-design/dist/css/bootstrap-material-design.min.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-material-design/dist/css/ripples.min.css" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -27,8 +33,12 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a asp-area="" asp-controller="Subscription" asp-action="Index" class="navbar-brand">
-                    Сервис продажи бритвенных станков и принадлежностей по подписке
+                    Подписка
                 </a>
+            </div>
+            <div class="pull-right">
+                <input type="text" class="js-datepicker form-control">
+                <span class="material-input"></span>
             </div>
         </div>
     </div>
@@ -43,6 +53,10 @@
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+        <script src="~/lib/bootstrap-datepicker/js/locales/bootstrap-datepicker.ru.js"></script>
+        <script src="~/lib/bootstrap-material-design/dist/js/material.js"></script>
+        <script src="~/lib/bootstrap-material-design/dist/js/ripples.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
@@ -54,9 +68,23 @@
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
         </script>
+        <script src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+        <script src="~/lib/bootstrap-datepicker/js/locales/bootstrap-datepicker.ru.js"></script>
+        <script src="~/lib/bootstrap-material-design/dist/js/material.min.js"></script>
+        <script src="~/lib/bootstrap-material-design/dist/js/ripples.min.js"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
-
+<script>
+    (function() {
+        $.material.init();
+        $.each($(".js-datepicker"), function(index, item) {
+            $(item).datepicker({
+                language: 'ru'
+            });
+            $(item).datepicker("setDate", new Date());
+        });
+    })();
+</script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

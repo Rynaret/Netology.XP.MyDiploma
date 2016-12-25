@@ -4,13 +4,13 @@
 {
     @Html.HiddenFor(x => x.Id)
     <div class="col-xs-4">
-        <div class="panel panel-info">
+        <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">@Model.Name</h3>
             </div>
             <div class="panel-body">
-                <span>Цена: @Model.Price $</span>
-                <button type="submit" class="btn btn-danger pull-right">
+                <span class="lead">Цена: @Model.Price $</span>
+                <button type="submit" class="btn btn-sm btn-danger pull-right btn-raised">
                     <span class="glyphicon glyphicon-remove"></span> Удалить из подписки
                 </button>
             </div>

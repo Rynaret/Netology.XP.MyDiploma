@@ -244,3 +244,6 @@ ModelManifest.xml
 /ShopService/src/ShopService/wwwroot/lib/jquery-validation
 /ShopService/src/ShopService/wwwroot/lib/jquery
 /ShopService/src/ShopService/wwwroot/lib/bootstrap
+/ShopService/src/ShopService/wwwroot/lib/bootstrap-sass
+/ShopService/src/ShopService/wwwroot/lib/bootstrap-material-design
+/ShopService/src/ShopService/wwwroot/lib/bootstrap-datepicker

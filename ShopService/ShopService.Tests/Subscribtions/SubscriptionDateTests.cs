@@ -41,10 +41,11 @@ namespace ShopService.Tests.Subscribtions
         [Test]
         public async Task ShouldAddSubcriptionDate_WhenSubscripingFirstTime()
         {
+            var today = DateTime.Today;
             var subscriptionId = 1;
             SubscriptionDate subscriptionDate = null;
             SetupMocks(subscriptionId, subscriptionDate);
-            var commandContext = new SuspendResumeSubscriptionContext();
+            var commandContext = new SuspendResumeSubscriptionContext(today);
             var command = new SuspendResumeSubscriptionCommand(_queryBuilderMock.Object, _commandBuilderMock.Object);
 
             await command.ExecuteAsync(commandContext);
@@ -58,6 +59,7 @@ namespace ShopService.Tests.Subscribtions
         [Test]
         public async Task ShouldRemoveLastSubcriptionDate_WhenSubscriptionHasBeenAlreadyStartedOrSuspendedToday()
         {
+            var today = DateTime.Today;
             var subscriptionId = 1;
             var subscriptionDateId = 1;
             SubscriptionDate lastSubscriptionDate = new SubscriptionDate
@@ -67,7 +69,7 @@ namespace ShopService.Tests.Subscribtions
                 Date = DateTime.UtcNow
             };
             SetupMocks(subscriptionId, lastSubscriptionDate);
-            var commandContext = new SuspendResumeSubscriptionContext();
+            var commandContext = new SuspendResumeSubscriptionContext(today);
             var command = new SuspendResumeSubscriptionCommand(_queryBuilderMock.Object, _commandBuilderMock.Object);
 
             await command.ExecuteAsync(commandContext);
@@ -83,6 +85,7 @@ namespace ShopService.Tests.Subscribtions
         public async Task ShouldAddResumedSubcriptionDate_WhenLastSubscriptionDateWasTypeOfStartedAndViceVersa
             (SubscriptionDateType type)
         {
+            var today = DateTime.Today;
             var subscriptionId = 1;
             var subscriptionDateId = 1;
             SubscriptionDate lastSubscriptionDate = new SubscriptionDate
@@ -92,7 +95,7 @@ namespace ShopService.Tests.Subscribtions
                 Type = type
             };
             SetupMocks(subscriptionId, lastSubscriptionDate);
-            var commandContext = new SuspendResumeSubscriptionContext();
+            var commandContext = new SuspendResumeSubscriptionContext(today);
             var command = new SuspendResumeSubscriptionCommand(_queryBuilderMock.Object, _commandBuilderMock.Object);
 
             await command.ExecuteAsync(commandContext);
